@@ -1,0 +1,43 @@
+#######################################
+# Syntax Coloring Map
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+SensirionI2cSen66	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+readMeasuredValues	KEYWORD2
+deviceReset	KEYWORD2
+startContinuousMeasurement	KEYWORD2
+stopMeasurement	KEYWORD2
+getDataReady	KEYWORD2
+readMeasuredValuesAsIntegers	KEYWORD2
+performForcedCo2Recalibration	KEYWORD2
+getProductName	KEYWORD2
+getSerialNumber	KEYWORD2
+getVersion	KEYWORD2
+signalMassConcentrationPm1p0	KEYWORD2
+signalMassConcentrationPm2p5	KEYWORD2
+signalMassConcentrationPm4p0	KEYWORD2
+signalMassConcentrationPm10p0	KEYWORD2
+signalTemperature	KEYWORD2
+signalHumidity	KEYWORD2
+signalVocIndex	KEYWORD2
+signalNoxIndex	KEYWORD2
+signalCo2	KEYWORD2
+
+#######################################
+# Instances (KEYWORD2)
+#######################################
+
+sensor	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################

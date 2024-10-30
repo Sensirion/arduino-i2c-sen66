@@ -1,0 +1,24 @@
+name: Quality check
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  arduino-quality:
+    uses: sensirion/.github/.github/workflows/driver.arduino.check.yml@main
+    with:
+      expect-arduino-examples: true
+      lint-lib-manager-check: update
+
+  todo-check:
+    if: github.event_name == 'push' && github.ref != 'refs/head/main'
+    uses: sensirion/.github/.github/workflows/driver.common.todo_check.yml@main
+
+  code-generation-check:
+    if: github.event_name == 'push' && github.ref != 'refs/head/main'
+    uses: sensirion/.github/.github/workflows/driver.generated.metadata_check.yml@main
