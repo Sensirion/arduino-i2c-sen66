@@ -3,7 +3,7 @@
  *
  * Generator:     sensirion-driver-generator 1.0.1
  * Product:       sen66
- * Model-Version: 1.2.0
+ * Model-Version: 1.3.0
  */
 /*
  * Copyright (c) 2024, Sensirion AG
@@ -48,6 +48,13 @@
 static uint8_t communication_buffer[48] = {0};
 
 SensirionI2cSen66::SensirionI2cSen66() {
+}
+
+float SensirionI2cSen66::signalMassConcentrationPm0p5(
+    uint16_t massConcentrationPm0p5Raw) {
+    float massConcentrationPm0p5 = 0.0;
+    massConcentrationPm0p5 = massConcentrationPm0p5Raw / 10.0;
+    return massConcentrationPm0p5;
 }
 
 float SensirionI2cSen66::signalMassConcentrationPm1p0(
@@ -102,9 +109,9 @@ float SensirionI2cSen66::signalNoxIndex(int16_t noxIndexRaw) {
     return noxIndex;
 }
 
-float SensirionI2cSen66::signalCo2(uint16_t co2Raw) {
-    float co2 = 0.0;
-    co2 = co2Raw / 1.0;
+uint16_t SensirionI2cSen66::signalCo2(uint16_t co2Raw) {
+    uint16_t co2 = 0;
+    co2 = co2Raw;
     return co2;
 }
 
@@ -112,7 +119,7 @@ int16_t SensirionI2cSen66::readMeasuredValues(
     float& massConcentrationPm1p0, float& massConcentrationPm2p5,
     float& massConcentrationPm4p0, float& massConcentrationPm10p0,
     float& humidity, float& temperature, float& vocIndex, float& noxIndex,
-    float& co2) {
+    uint16_t& co2) {
     uint16_t massConcentrationPm1p0Raw = 0;
     uint16_t massConcentrationPm2p5Raw = 0;
     uint16_t massConcentrationPm4p0Raw = 0;
@@ -146,17 +153,33 @@ int16_t SensirionI2cSen66::readMeasuredValues(
     return localError;
 }
 
-int16_t SensirionI2cSen66::deviceReset() {
-    int16_t localError = NO_ERROR;
-    uint8_t* buffer_ptr = communication_buffer;
-    SensirionI2CTxFrame txFrame =
-        SensirionI2CTxFrame::createWithUInt16Command(0xd304, buffer_ptr, 2);
-    localError =
-        SensirionI2CCommunication::sendFrame(_i2cAddress, txFrame, *_i2cBus);
+int16_t SensirionI2cSen66::readNumberConcentrationValues(
+    float& massConcentrationPm0p5, float& massConcentrationPm1p0,
+    float& massConcentrationPm2p5, float& massConcentrationPm4p0,
+    float& massConcentrationPm10p0) {
+    uint16_t massConcentrationPm0p5Raw = 0;
+    uint16_t massConcentrationPm1p0Raw = 0;
+    uint16_t massConcentrationPm2p5Raw = 0;
+    uint16_t massConcentrationPm4p0Raw = 0;
+    uint16_t massConcentrationPm10p0Raw = 0;
+    int16_t localError = 0;
+    localError = readNumberConcentrationValuesAsIntegers(
+        massConcentrationPm0p5Raw, massConcentrationPm1p0Raw,
+        massConcentrationPm2p5Raw, massConcentrationPm4p0Raw,
+        massConcentrationPm10p0Raw);
     if (localError != NO_ERROR) {
         return localError;
     }
-    delay(1200);
+    massConcentrationPm0p5 = SensirionI2cSen66::signalMassConcentrationPm0p5(
+        massConcentrationPm0p5Raw);
+    massConcentrationPm1p0 = SensirionI2cSen66::signalMassConcentrationPm1p0(
+        massConcentrationPm1p0Raw);
+    massConcentrationPm2p5 = SensirionI2cSen66::signalMassConcentrationPm2p5(
+        massConcentrationPm2p5Raw);
+    massConcentrationPm4p0 = SensirionI2cSen66::signalMassConcentrationPm4p0(
+        massConcentrationPm4p0Raw);
+    massConcentrationPm10p0 = SensirionI2cSen66::signalMassConcentrationPm10p0(
+        massConcentrationPm10p0Raw);
     return localError;
 }
 
@@ -184,7 +207,7 @@ int16_t SensirionI2cSen66::stopMeasurement() {
     if (localError != NO_ERROR) {
         return localError;
     }
-    delay(160);
+    delay(1000);
     return localError;
 }
 
@@ -243,6 +266,324 @@ int16_t SensirionI2cSen66::readMeasuredValuesAsIntegers(
     return localError;
 }
 
+int16_t SensirionI2cSen66::readNumberConcentrationValuesAsIntegers(
+    uint16_t& numberConcentrationPm0p5, uint16_t& numberConcentrationPm1p0,
+    uint16_t& numberConcentrationPm2p5, uint16_t& numberConcentrationPm4p0,
+    uint16_t& numberConcentrationPm10p0) {
+    int16_t localError = NO_ERROR;
+    uint8_t* buffer_ptr = communication_buffer;
+    SensirionI2CTxFrame txFrame =
+        SensirionI2CTxFrame::createWithUInt16Command(0x316, buffer_ptr, 15);
+    localError =
+        SensirionI2CCommunication::sendFrame(_i2cAddress, txFrame, *_i2cBus);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    delay(20);
+    SensirionI2CRxFrame rxFrame(buffer_ptr, 15);
+    localError = SensirionI2CCommunication::receiveFrame(_i2cAddress, 15,
+                                                         rxFrame, *_i2cBus);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    localError |= rxFrame.getUInt16(numberConcentrationPm0p5);
+    localError |= rxFrame.getUInt16(numberConcentrationPm1p0);
+    localError |= rxFrame.getUInt16(numberConcentrationPm2p5);
+    localError |= rxFrame.getUInt16(numberConcentrationPm4p0);
+    localError |= rxFrame.getUInt16(numberConcentrationPm10p0);
+    return localError;
+}
+
+int16_t SensirionI2cSen66::readMeasuredRawValues(int16_t& rawHumidity,
+                                                 int16_t& rawTemperature,
+                                                 uint16_t& rawVOC,
+                                                 uint16_t& rawNOx,
+                                                 uint16_t& rawCO2) {
+    int16_t localError = NO_ERROR;
+    uint8_t* buffer_ptr = communication_buffer;
+    SensirionI2CTxFrame txFrame =
+        SensirionI2CTxFrame::createWithUInt16Command(0x405, buffer_ptr, 15);
+    localError =
+        SensirionI2CCommunication::sendFrame(_i2cAddress, txFrame, *_i2cBus);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    delay(20);
+    SensirionI2CRxFrame rxFrame(buffer_ptr, 15);
+    localError = SensirionI2CCommunication::receiveFrame(_i2cAddress, 15,
+                                                         rxFrame, *_i2cBus);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    localError |= rxFrame.getInt16(rawHumidity);
+    localError |= rxFrame.getInt16(rawTemperature);
+    localError |= rxFrame.getUInt16(rawVOC);
+    localError |= rxFrame.getUInt16(rawNOx);
+    localError |= rxFrame.getUInt16(rawCO2);
+    return localError;
+}
+
+int16_t SensirionI2cSen66::startFanCleaning() {
+    int16_t localError = NO_ERROR;
+    uint8_t* buffer_ptr = communication_buffer;
+    SensirionI2CTxFrame txFrame =
+        SensirionI2CTxFrame::createWithUInt16Command(0x5607, buffer_ptr, 2);
+    localError =
+        SensirionI2CCommunication::sendFrame(_i2cAddress, txFrame, *_i2cBus);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    delay(20);
+    return localError;
+}
+
+int16_t SensirionI2cSen66::setTemperatureOffsetParameters(int16_t offset,
+                                                          int16_t slope,
+                                                          uint16_t timeConstant,
+                                                          uint16_t slot) {
+    int16_t localError = NO_ERROR;
+    uint8_t* buffer_ptr = communication_buffer;
+    SensirionI2CTxFrame txFrame =
+        SensirionI2CTxFrame::createWithUInt16Command(0x60b2, buffer_ptr, 14);
+    localError |= txFrame.addInt16(offset);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    localError |= txFrame.addInt16(slope);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    localError |= txFrame.addUInt16(timeConstant);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    localError |= txFrame.addUInt16(slot);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    localError =
+        SensirionI2CCommunication::sendFrame(_i2cAddress, txFrame, *_i2cBus);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    delay(20);
+    return localError;
+}
+
+int16_t SensirionI2cSen66::setVocAlgorithmTuningParameters(
+    int16_t indexOffset, int16_t learningTimeOffsetHours,
+    int16_t learningTimeGainHours, int16_t gatingMaxDurationMinutes,
+    int16_t stdInitial, int16_t gainFactor) {
+    int16_t localError = NO_ERROR;
+    uint8_t* buffer_ptr = communication_buffer;
+    SensirionI2CTxFrame txFrame =
+        SensirionI2CTxFrame::createWithUInt16Command(0x60d0, buffer_ptr, 20);
+    localError |= txFrame.addInt16(indexOffset);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    localError |= txFrame.addInt16(learningTimeOffsetHours);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    localError |= txFrame.addInt16(learningTimeGainHours);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    localError |= txFrame.addInt16(gatingMaxDurationMinutes);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    localError |= txFrame.addInt16(stdInitial);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    localError |= txFrame.addInt16(gainFactor);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    localError =
+        SensirionI2CCommunication::sendFrame(_i2cAddress, txFrame, *_i2cBus);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    delay(20);
+    return localError;
+}
+
+int16_t SensirionI2cSen66::getVocAlgorithmTuningParameters(
+    int16_t& indexOffset, int16_t& learningTimeOffsetHours,
+    int16_t& learningTimeGainHours, int16_t& gatingMaxDurationMinutes,
+    int16_t& stdInitial, int16_t& gainFactor) {
+    int16_t localError = NO_ERROR;
+    uint8_t* buffer_ptr = communication_buffer;
+    SensirionI2CTxFrame txFrame =
+        SensirionI2CTxFrame::createWithUInt16Command(0x60d0, buffer_ptr, 18);
+    localError =
+        SensirionI2CCommunication::sendFrame(_i2cAddress, txFrame, *_i2cBus);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    delay(20);
+    SensirionI2CRxFrame rxFrame(buffer_ptr, 18);
+    localError = SensirionI2CCommunication::receiveFrame(_i2cAddress, 18,
+                                                         rxFrame, *_i2cBus);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    localError |= rxFrame.getInt16(indexOffset);
+    localError |= rxFrame.getInt16(learningTimeOffsetHours);
+    localError |= rxFrame.getInt16(learningTimeGainHours);
+    localError |= rxFrame.getInt16(gatingMaxDurationMinutes);
+    localError |= rxFrame.getInt16(stdInitial);
+    localError |= rxFrame.getInt16(gainFactor);
+    return localError;
+}
+
+int16_t SensirionI2cSen66::setNoxAlgorithmTuningParameters(
+    int16_t indexOffset, int16_t learningTimeOffsetHours,
+    int16_t learningTimeGainHours, int16_t gatingMaxDurationMinutes,
+    int16_t stdInitial, int16_t gainFactor) {
+    int16_t localError = NO_ERROR;
+    uint8_t* buffer_ptr = communication_buffer;
+    SensirionI2CTxFrame txFrame =
+        SensirionI2CTxFrame::createWithUInt16Command(0x60e1, buffer_ptr, 20);
+    localError |= txFrame.addInt16(indexOffset);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    localError |= txFrame.addInt16(learningTimeOffsetHours);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    localError |= txFrame.addInt16(learningTimeGainHours);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    localError |= txFrame.addInt16(gatingMaxDurationMinutes);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    localError |= txFrame.addInt16(stdInitial);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    localError |= txFrame.addInt16(gainFactor);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    localError =
+        SensirionI2CCommunication::sendFrame(_i2cAddress, txFrame, *_i2cBus);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    delay(20);
+    return localError;
+}
+
+int16_t SensirionI2cSen66::getNoxAlgorithmTuningParameters(
+    int16_t& indexOffset, int16_t& learningTimeOffsetHours,
+    int16_t& learningTimeGainHours, int16_t& gatingMaxDurationMinutes,
+    int16_t& stdInitial, int16_t& gainFactor) {
+    int16_t localError = NO_ERROR;
+    uint8_t* buffer_ptr = communication_buffer;
+    SensirionI2CTxFrame txFrame =
+        SensirionI2CTxFrame::createWithUInt16Command(0x60e1, buffer_ptr, 18);
+    localError =
+        SensirionI2CCommunication::sendFrame(_i2cAddress, txFrame, *_i2cBus);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    delay(20);
+    SensirionI2CRxFrame rxFrame(buffer_ptr, 18);
+    localError = SensirionI2CCommunication::receiveFrame(_i2cAddress, 18,
+                                                         rxFrame, *_i2cBus);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    localError |= rxFrame.getInt16(indexOffset);
+    localError |= rxFrame.getInt16(learningTimeOffsetHours);
+    localError |= rxFrame.getInt16(learningTimeGainHours);
+    localError |= rxFrame.getInt16(gatingMaxDurationMinutes);
+    localError |= rxFrame.getInt16(stdInitial);
+    localError |= rxFrame.getInt16(gainFactor);
+    return localError;
+}
+
+int16_t SensirionI2cSen66::setTemperatureAccelerationParameters(uint16_t k,
+                                                                uint16_t p,
+                                                                uint16_t t1,
+                                                                uint16_t t2) {
+    int16_t localError = NO_ERROR;
+    uint8_t* buffer_ptr = communication_buffer;
+    SensirionI2CTxFrame txFrame =
+        SensirionI2CTxFrame::createWithUInt16Command(0x6100, buffer_ptr, 14);
+    localError |= txFrame.addUInt16(k);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    localError |= txFrame.addUInt16(p);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    localError |= txFrame.addUInt16(t1);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    localError |= txFrame.addUInt16(t2);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    localError =
+        SensirionI2CCommunication::sendFrame(_i2cAddress, txFrame, *_i2cBus);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    delay(20);
+    return localError;
+}
+
+int16_t SensirionI2cSen66::setVocAlgorithmState(const uint8_t state[],
+                                                uint16_t stateSize) {
+    int16_t localError = NO_ERROR;
+    uint8_t* buffer_ptr = communication_buffer;
+    SensirionI2CTxFrame txFrame =
+        SensirionI2CTxFrame::createWithUInt16Command(0x6181, buffer_ptr, 14);
+    localError |= txFrame.addBytes(state, stateSize);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+
+    localError =
+        SensirionI2CCommunication::sendFrame(_i2cAddress, txFrame, *_i2cBus);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    return localError;
+}
+
+int16_t SensirionI2cSen66::getVocAlgorithmState(uint8_t state[],
+                                                uint16_t stateSize) {
+    int16_t localError = NO_ERROR;
+    uint8_t* buffer_ptr = communication_buffer;
+    SensirionI2CTxFrame txFrame =
+        SensirionI2CTxFrame::createWithUInt16Command(0x6181, buffer_ptr, 12);
+    localError =
+        SensirionI2CCommunication::sendFrame(_i2cAddress, txFrame, *_i2cBus);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    delay(20);
+    SensirionI2CRxFrame rxFrame(buffer_ptr, 12);
+    localError = SensirionI2CCommunication::receiveFrame(_i2cAddress, 12,
+                                                         rxFrame, *_i2cBus);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    localError |= rxFrame.getBytes((uint8_t*)state, stateSize);
+    return localError;
+}
+
 int16_t SensirionI2cSen66::performForcedCo2Recalibration(
     uint16_t targetCo2Concentration, uint16_t& correction) {
     int16_t localError = NO_ERROR;
@@ -266,6 +607,141 @@ int16_t SensirionI2cSen66::performForcedCo2Recalibration(
         return localError;
     }
     localError |= rxFrame.getUInt16(correction);
+    return localError;
+}
+
+int16_t
+SensirionI2cSen66::setCo2SensorAutomaticSelfCalibration(uint16_t status) {
+    int16_t localError = NO_ERROR;
+    uint8_t* buffer_ptr = communication_buffer;
+    SensirionI2CTxFrame txFrame =
+        SensirionI2CTxFrame::createWithUInt16Command(0x6711, buffer_ptr, 5);
+    localError |= txFrame.addUInt16(status);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    localError =
+        SensirionI2CCommunication::sendFrame(_i2cAddress, txFrame, *_i2cBus);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    delay(20);
+    return localError;
+}
+
+int16_t
+SensirionI2cSen66::getCo2SensorAutomaticSelfCalibration(uint8_t& padding,
+                                                        bool& status) {
+    int16_t localError = NO_ERROR;
+    uint8_t* buffer_ptr = communication_buffer;
+    SensirionI2CTxFrame txFrame =
+        SensirionI2CTxFrame::createWithUInt16Command(0x6711, buffer_ptr, 3);
+    localError =
+        SensirionI2CCommunication::sendFrame(_i2cAddress, txFrame, *_i2cBus);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    delay(20);
+    SensirionI2CRxFrame rxFrame(buffer_ptr, 3);
+    localError = SensirionI2CCommunication::receiveFrame(_i2cAddress, 3,
+                                                         rxFrame, *_i2cBus);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    localError |= rxFrame.getUInt8(padding);
+    localError |= rxFrame.getBool(status);
+    return localError;
+}
+
+int16_t SensirionI2cSen66::setAmbientPressure(uint16_t ambientPressure) {
+    int16_t localError = NO_ERROR;
+    uint8_t* buffer_ptr = communication_buffer;
+    SensirionI2CTxFrame txFrame =
+        SensirionI2CTxFrame::createWithUInt16Command(0x6720, buffer_ptr, 5);
+    localError |= txFrame.addUInt16(ambientPressure);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    localError =
+        SensirionI2CCommunication::sendFrame(_i2cAddress, txFrame, *_i2cBus);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    delay(20);
+    return localError;
+}
+
+int16_t SensirionI2cSen66::getAmbientPressure(uint16_t& ambientPressure) {
+    int16_t localError = NO_ERROR;
+    uint8_t* buffer_ptr = communication_buffer;
+    SensirionI2CTxFrame txFrame =
+        SensirionI2CTxFrame::createWithUInt16Command(0x6720, buffer_ptr, 3);
+    localError =
+        SensirionI2CCommunication::sendFrame(_i2cAddress, txFrame, *_i2cBus);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    delay(20);
+    SensirionI2CRxFrame rxFrame(buffer_ptr, 3);
+    localError = SensirionI2CCommunication::receiveFrame(_i2cAddress, 3,
+                                                         rxFrame, *_i2cBus);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    localError |= rxFrame.getUInt16(ambientPressure);
+    return localError;
+}
+
+int16_t SensirionI2cSen66::setSensorAltitude(uint16_t altitude) {
+    int16_t localError = NO_ERROR;
+    uint8_t* buffer_ptr = communication_buffer;
+    SensirionI2CTxFrame txFrame =
+        SensirionI2CTxFrame::createWithUInt16Command(0x6736, buffer_ptr, 5);
+    localError |= txFrame.addUInt16(altitude);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    localError =
+        SensirionI2CCommunication::sendFrame(_i2cAddress, txFrame, *_i2cBus);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    delay(20);
+    return localError;
+}
+
+int16_t SensirionI2cSen66::getSensorAltitude(uint16_t& altitude) {
+    int16_t localError = NO_ERROR;
+    uint8_t* buffer_ptr = communication_buffer;
+    SensirionI2CTxFrame txFrame =
+        SensirionI2CTxFrame::createWithUInt16Command(0x6736, buffer_ptr, 3);
+    localError =
+        SensirionI2CCommunication::sendFrame(_i2cAddress, txFrame, *_i2cBus);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    delay(20);
+    SensirionI2CRxFrame rxFrame(buffer_ptr, 3);
+    localError = SensirionI2CCommunication::receiveFrame(_i2cAddress, 3,
+                                                         rxFrame, *_i2cBus);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    localError |= rxFrame.getUInt16(altitude);
+    return localError;
+}
+
+int16_t SensirionI2cSen66::activateShtHeater() {
+    int16_t localError = NO_ERROR;
+    uint8_t* buffer_ptr = communication_buffer;
+    SensirionI2CTxFrame txFrame =
+        SensirionI2CTxFrame::createWithUInt16Command(0x6765, buffer_ptr, 2);
+    localError =
+        SensirionI2CCommunication::sendFrame(_i2cAddress, txFrame, *_i2cBus);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    delay(1300);
     return localError;
 }
 
@@ -313,35 +789,60 @@ int16_t SensirionI2cSen66::getSerialNumber(uint8_t serialNumber[],
     return localError;
 }
 
-int16_t
-SensirionI2cSen66::getVersion(uint8_t& firmwareMajor, uint8_t& firmwareMinor,
-                              bool& firmwareDebug, uint8_t& hardwareMajor,
-                              uint8_t& hardwareMinor, uint8_t& protocolMajor,
-                              uint8_t& protocolMinor, uint8_t& padding) {
+int16_t SensirionI2cSen66::readDeviceStatus(SEN66DeviceStatus& deviceStatus) {
     int16_t localError = NO_ERROR;
     uint8_t* buffer_ptr = communication_buffer;
     SensirionI2CTxFrame txFrame =
-        SensirionI2CTxFrame::createWithUInt16Command(0xd000, buffer_ptr, 12);
+        SensirionI2CTxFrame::createWithUInt16Command(0xd206, buffer_ptr, 6);
     localError =
         SensirionI2CCommunication::sendFrame(_i2cAddress, txFrame, *_i2cBus);
     if (localError != NO_ERROR) {
         return localError;
     }
     delay(20);
-    SensirionI2CRxFrame rxFrame(buffer_ptr, 12);
-    localError = SensirionI2CCommunication::receiveFrame(_i2cAddress, 12,
+    SensirionI2CRxFrame rxFrame(buffer_ptr, 6);
+    localError = SensirionI2CCommunication::receiveFrame(_i2cAddress, 6,
                                                          rxFrame, *_i2cBus);
     if (localError != NO_ERROR) {
         return localError;
     }
-    localError |= rxFrame.getUInt8(firmwareMajor);
-    localError |= rxFrame.getUInt8(firmwareMinor);
-    localError |= rxFrame.getBool(firmwareDebug);
-    localError |= rxFrame.getUInt8(hardwareMajor);
-    localError |= rxFrame.getUInt8(hardwareMinor);
-    localError |= rxFrame.getUInt8(protocolMajor);
-    localError |= rxFrame.getUInt8(protocolMinor);
-    localError |= rxFrame.getUInt8(padding);
+    localError |= rxFrame.getUInt32(deviceStatus.value);
+    return localError;
+}
+
+int16_t
+SensirionI2cSen66::readAndClearDeviceStatus(SEN66DeviceStatus& deviceStatus) {
+    int16_t localError = NO_ERROR;
+    uint8_t* buffer_ptr = communication_buffer;
+    SensirionI2CTxFrame txFrame =
+        SensirionI2CTxFrame::createWithUInt16Command(0xd210, buffer_ptr, 6);
+    localError =
+        SensirionI2CCommunication::sendFrame(_i2cAddress, txFrame, *_i2cBus);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    delay(20);
+    SensirionI2CRxFrame rxFrame(buffer_ptr, 6);
+    localError = SensirionI2CCommunication::receiveFrame(_i2cAddress, 6,
+                                                         rxFrame, *_i2cBus);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    localError |= rxFrame.getUInt32(deviceStatus.value);
+    return localError;
+}
+
+int16_t SensirionI2cSen66::deviceReset() {
+    int16_t localError = NO_ERROR;
+    uint8_t* buffer_ptr = communication_buffer;
+    SensirionI2CTxFrame txFrame =
+        SensirionI2CTxFrame::createWithUInt16Command(0xd304, buffer_ptr, 2);
+    localError =
+        SensirionI2CCommunication::sendFrame(_i2cAddress, txFrame, *_i2cBus);
+    if (localError != NO_ERROR) {
+        return localError;
+    }
+    delay(1200);
     return localError;
 }
 

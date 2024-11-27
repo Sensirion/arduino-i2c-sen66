@@ -8,10 +8,8 @@ communicate with a SEN66 sensor over I²C.
 Click [here](https://sensirion.com/sen6x-air-quality-sensor-platform) to learn more about the Sensirion SEN66 sensor.
 
 
-unknown
 
-
-The default I²C address of [SEN66](https://www.sensirion.com/products/catalog/SEN6x) is **0x6B**.
+The default I²C address of [SEN66](https://www.sensirion.com/products/catalog/SEN66) is **0x6B**.
 
 
 
