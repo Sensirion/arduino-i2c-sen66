@@ -3,7 +3,7 @@
  *
  * Generator:     sensirion-driver-generator 1.0.1
  * Product:       sen66
- * Model-Version: 1.2.0
+ * Model-Version: 1.3.0
  */
 /*
  * Copyright (c) 2024, Sensirion AG
@@ -106,7 +106,7 @@ void loop() {
     float temperature = 0.0;
     float vocIndex = 0.0;
     float noxIndex = 0.0;
-    float co2 = 0.0;
+    uint16_t co2 = 0;
     delay(1000);
     error = sensor.readMeasuredValues(
         massConcentrationPm1p0, massConcentrationPm2p5, massConcentrationPm4p0,

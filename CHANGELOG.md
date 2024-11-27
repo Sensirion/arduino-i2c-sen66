@@ -5,6 +5,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] 
 
+## [1.0.0] - 2024-11-25
+
+### Added
+
+- Add all public interfaces
+### Changed
+
+- Return type of CO2 value in read_measured_values changed from float to uint16
 ## [0.1.0] - 2024-10-31
 
 ### Added
@@ -13,5 +21,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add interfaces to start, stop and read measurements.
 - Add interfaces to read product name, serial number and version
 
-[Unreleased]: https://github.com/Sensirion/arduino-i2c-sen66/compare/0.1.0...HEAD
+[Unreleased]: https://github.com/Sensirion/arduino-i2c-sen66/compare/1.0.0...HEAD
+[1.0.0]: https://github.com/Sensirion/arduino-i2c-sen66/compare/0.1.0...1.0.0
 [0.1.0]: https://github.com/Sensirion/arduino-i2c-sen66/releases/tag/0.1.0
