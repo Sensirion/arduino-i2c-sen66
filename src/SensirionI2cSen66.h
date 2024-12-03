@@ -3,7 +3,7 @@
  *
  * Generator:     sensirion-driver-generator 1.0.1
  * Product:       sen66
- * Model-Version: 1.3.0
+ * Model-Version: 1.3.1
  */
 /*
  * Copyright (c) 2024, Sensirion AG
@@ -106,14 +106,14 @@ class SensirionI2cSen66 {
     /**
      * @brief Read measured values and apply scaling as defined in datasheet.
      *
-     * @param[out] massConcentrationPm1p0 Mass concentration for particles
-     * smaller than 1.0 μm.
-     * @param[out] massConcentrationPm2p5 Mass concentration for particles
-     * smaller than 2.5 μm.
-     * @param[out] massConcentrationPm4p0 Mass concentration for particles
-     * smaller than 4.0 μm.
-     * @param[out] massConcentrationPm10p0 Mass concentration for particles
-     * smaller than 10.0 μm.
+     * @param[out] massConcentrationPm1p0 Mass concentration in μg/m³ for
+     * particles smaller than 1.0 μm.
+     * @param[out] massConcentrationPm2p5 Mass concentration in μg/m³ for
+     * particles smaller than 2.5 μm.
+     * @param[out] massConcentrationPm4p0 Mass concentration in μg/m³ for
+     * particles smaller than 4.0 μm.
+     * @param[out] massConcentrationPm10p0 Mass concentration in μg/m³ for
+     * particles smaller than 10.0 μm.
      * @param[out] humidity Measured humidity in %RH.
      * @param[out] temperature Measured temperature in degrees celsius.
      * @param[out] vocIndex Measured VOC Index between 0 and 500.
@@ -133,24 +133,24 @@ class SensirionI2cSen66 {
      * @brief Read measured number concentration values and apply scaling as
      * defined in datasheet.
      *
-     * @param[out] massConcentrationPm0p5 Mass concentration for particles
-     * smaller than 1.0 μm.
-     * @param[out] massConcentrationPm1p0 Mass concentration for particles
-     * smaller than 1.0 μm.
-     * @param[out] massConcentrationPm2p5 Mass concentration for particles
-     * smaller than 2.5 μm.
-     * @param[out] massConcentrationPm4p0 Mass concentration for particles
-     * smaller than 4.0 μm.
-     * @param[out] massConcentrationPm10p0 Mass concentration for particles
-     * smaller than 10.0 μm.
+     * @param[out] numberConcentrationPm0p5 Number concentration in
+     * particles/cm³ for particles smaller than 0.5 μm.
+     * @param[out] numberConcentrationPm1p0 Number concentration in
+     * particles/cm³ for particles smaller than 1.0 μm.
+     * @param[out] numberConcentrationPm2p5 Number concentration in
+     * particles/cm³ for particles smaller than 2.5 μm.
+     * @param[out] numberConcentrationPm4p0 Number concentration in
+     * particles/cm³ for particles smaller than 4.0 μm.
+     * @param[out] numberConcentrationPm10p0 Number concentration in
+     * particles/cm³ for particles smaller than 10.0 μm.
      *
      * @return error_code 0 on success, an error code otherwise.
      */
-    int16_t readNumberConcentrationValues(float& massConcentrationPm0p5,
-                                          float& massConcentrationPm1p0,
-                                          float& massConcentrationPm2p5,
-                                          float& massConcentrationPm4p0,
-                                          float& massConcentrationPm10p0);
+    int16_t readNumberConcentrationValues(float& numberConcentrationPm0p5,
+                                          float& numberConcentrationPm1p0,
+                                          float& numberConcentrationPm2p5,
+                                          float& numberConcentrationPm4p0,
+                                          float& numberConcentrationPm10p0);
 
     /**
      * @brief Start a continuous measurement (interval 1s)
@@ -881,21 +881,11 @@ class SensirionI2cSen66 {
     int16_t deviceReset();
 
     /**
-     * @brief signalMassConcentrationPm0p5
-     *
-     * @param[in] massConcentrationPm0p5Raw
-     *
-     * @return Mass concentration for particles smaller than 0.5 μm
-     */
-    static float
-    signalMassConcentrationPm0p5(uint16_t massConcentrationPm0p5Raw);
-
-    /**
      * @brief signalMassConcentrationPm1p0
      *
      * @param[in] massConcentrationPm1p0Raw
      *
-     * @return Mass concentration for particles smaller than 1.0 μm
+     * @return Mass concentration in μg/m³ for particles smaller than 1.0 μm
      */
     static float
     signalMassConcentrationPm1p0(uint16_t massConcentrationPm1p0Raw);
@@ -905,7 +895,7 @@ class SensirionI2cSen66 {
      *
      * @param[in] massConcentrationPm2p5Raw
      *
-     * @return Mass concentration for particles smaller than 2.5 μm
+     * @return Mass concentration in μg/m³ for particles smaller than 2.5 μm
      */
     static float
     signalMassConcentrationPm2p5(uint16_t massConcentrationPm2p5Raw);
@@ -915,7 +905,7 @@ class SensirionI2cSen66 {
      *
      * @param[in] massConcentrationPm4p0Raw
      *
-     * @return Mass concentration for particles smaller than 4.0 μm
+     * @return Mass concentration in μg/m³ for particles smaller than 4.0 μm
      */
     static float
     signalMassConcentrationPm4p0(uint16_t massConcentrationPm4p0Raw);
@@ -925,10 +915,65 @@ class SensirionI2cSen66 {
      *
      * @param[in] massConcentrationPm10p0Raw
      *
-     * @return Mass concentration for particles smaller than 10.0 μm
+     * @return Mass concentration in μg/m³ for particles smaller than 10.0 μm
      */
     static float
     signalMassConcentrationPm10p0(uint16_t massConcentrationPm10p0Raw);
+
+    /**
+     * @brief signalNumberConcentrationPm0p5
+     *
+     * @param[in] numberConcentrationPm0p5Raw
+     *
+     * @return Number concentration in particles/cm³ for particles smaller than
+     * 0.5 μm
+     */
+    static float
+    signalNumberConcentrationPm0p5(uint16_t numberConcentrationPm0p5Raw);
+
+    /**
+     * @brief signalNumberConcentrationPm1p0
+     *
+     * @param[in] numberConcentrationPm1p0Raw
+     *
+     * @return Number concentration in particles/cm³ for particles smaller
+     * than 1.0 μm
+     */
+    static float
+    signalNumberConcentrationPm1p0(uint16_t numberConcentrationPm1p0Raw);
+
+    /**
+     * @brief signalNumberConcentrationPm2p5
+     *
+     * @param[in] numberConcentrationPm2p5Raw
+     *
+     * @return Number concentration in particles/cm³ for particles smaller
+     * than 2.5 μm
+     */
+    static float
+    signalNumberConcentrationPm2p5(uint16_t numberConcentrationPm2p5Raw);
+
+    /**
+     * @brief signalNumberConcentrationPm4p0
+     *
+     * @param[in] numberConcentrationPm4p0Raw
+     *
+     * @return Number concentration in particles/cm³ for particles smaller
+     * than 4.0 μm
+     */
+    static float
+    signalNumberConcentrationPm4p0(uint16_t numberConcentrationPm4p0Raw);
+
+    /**
+     * @brief signalNumberConcentrationPm10p0
+     *
+     * @param[in] numberConcentrationPm10p0Raw
+     *
+     * @return Number concentration in particles/cm³ for particles smaller
+     * than 10.0 μm
+     */
+    static float
+    signalNumberConcentrationPm10p0(uint16_t numberConcentrationPm10p0Raw);
 
     /**
      * @brief signalTemperature

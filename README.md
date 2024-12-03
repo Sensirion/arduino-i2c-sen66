@@ -43,12 +43,12 @@ Use the following pin description to connect your SEN66 to the standard I²C bus
 
 | *Pin* | *Cable Color* | *Name* | *Description*  | *Comments* |
 |-------|---------------|:------:|----------------|------------|
-| 1 | red | VDD | Supply Voltage | 3.3V ±10%
+| 1 | red | VDD | Supply Voltage | 3.3V ±5%
 | 2 | black | GND | Ground |
 | 3 | green | SDA | I2C: Serial data input / output | TTL 5V compatible
 | 4 | yellow | SCL | I2C: Serial clock input | TTL 5V compatible
-| 5 |  | NC | Do not connect |
-| 6 |  | NC | Do not connect |
+| 5 |  | GND | Ground | Do not connect (Pins 2 and 5 are connected internally)
+| 6 |  | VDD | Supply Voltage | Do not connect (Pins 1 and 6 are connected internally)
 
 
 
@@ -69,6 +69,8 @@ You will find pinout schematics for recommended board models below:
 | GND | 2 | black | GND |
 | SDA | 3 | green | D18/SDA |
 | SCL | 4 | yellow | D19/SCL |
+| GND | 5 |  | GND |
+| VDD | 6 |  | 3.3V |
 
 
 
@@ -88,6 +90,8 @@ You will find pinout schematics for recommended board models below:
 | GND | 2 | black | GND |
 | SDA | 3 | green | A4 |
 | SCL | 4 | yellow | A5 |
+| GND | 5 |  | GND |
+| VDD | 6 |  | 3.3V |
 
 
 
@@ -107,6 +111,8 @@ You will find pinout schematics for recommended board models below:
 | GND | 2 | black | GND |
 | SDA | 3 | green | D2/SDA |
 | SCL | 4 | yellow | ~D3/SCL |
+| GND | 5 |  | GND |
+| VDD | 6 |  | 3.3V |
 
 
 
@@ -126,6 +132,8 @@ You will find pinout schematics for recommended board models below:
 | GND | 2 | black | GND |
 | SDA | 3 | green | D20/SDA |
 | SCL | 4 | yellow | D21/SCL |
+| GND | 5 |  | GND |
+| VDD | 6 |  | 3.3V |
 
 
 
@@ -145,6 +153,8 @@ You will find pinout schematics for recommended board models below:
 | GND | 2 | black | GND |
 | SDA | 3 | green | GPIO 21 |
 | SCL | 4 | yellow | GPIO 22 |
+| GND | 5 |  | GND |
+| VDD | 6 |  | 3V3 |
 
 
 

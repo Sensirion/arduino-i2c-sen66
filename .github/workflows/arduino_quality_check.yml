@@ -13,7 +13,7 @@ jobs:
     uses: sensirion/.github/.github/workflows/driver.arduino.check.yml@main
     with:
       expect-arduino-examples: true
-      lint-lib-manager-check: submit
+      lint-lib-manager-check: update
 
   todo-check:
     if: github.event_name == 'push' && github.ref != 'refs/head/main'
