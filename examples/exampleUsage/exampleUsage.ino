@@ -3,7 +3,7 @@
  *
  * Generator:     sensirion-driver-generator 1.0.1
  * Product:       sen66
- * Model-Version: 1.3.0
+ * Model-Version: 1.3.1
  */
 /*
  * Copyright (c) 2024, Sensirion AG

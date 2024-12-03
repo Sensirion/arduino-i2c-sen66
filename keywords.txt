@@ -42,11 +42,15 @@ getSerialNumber	KEYWORD2
 readDeviceStatus	KEYWORD2
 readAndClearDeviceStatus	KEYWORD2
 deviceReset	KEYWORD2
-signalMassConcentrationPm0p5	KEYWORD2
 signalMassConcentrationPm1p0	KEYWORD2
 signalMassConcentrationPm2p5	KEYWORD2
 signalMassConcentrationPm4p0	KEYWORD2
 signalMassConcentrationPm10p0	KEYWORD2
+signalNumberConcentrationPm0p5	KEYWORD2
+signalNumberConcentrationPm1p0	KEYWORD2
+signalNumberConcentrationPm2p5	KEYWORD2
+signalNumberConcentrationPm4p0	KEYWORD2
+signalNumberConcentrationPm10p0	KEYWORD2
 signalTemperature	KEYWORD2
 signalHumidity	KEYWORD2
 signalVocIndex	KEYWORD2

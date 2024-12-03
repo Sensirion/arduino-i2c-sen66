@@ -3,7 +3,7 @@
  *
  * Generator:     sensirion-driver-generator 1.0.1
  * Product:       sen66
- * Model-Version: 1.3.0
+ * Model-Version: 1.3.1
  */
 /*
  * Copyright (c) 2024, Sensirion AG
@@ -50,13 +50,6 @@ static uint8_t communication_buffer[48] = {0};
 SensirionI2cSen66::SensirionI2cSen66() {
 }
 
-float SensirionI2cSen66::signalMassConcentrationPm0p5(
-    uint16_t massConcentrationPm0p5Raw) {
-    float massConcentrationPm0p5 = 0.0;
-    massConcentrationPm0p5 = massConcentrationPm0p5Raw / 10.0;
-    return massConcentrationPm0p5;
-}
-
 float SensirionI2cSen66::signalMassConcentrationPm1p0(
     uint16_t massConcentrationPm1p0Raw) {
     float massConcentrationPm1p0 = 0.0;
@@ -83,6 +76,41 @@ float SensirionI2cSen66::signalMassConcentrationPm10p0(
     float massConcentrationPm10p0 = 0.0;
     massConcentrationPm10p0 = massConcentrationPm10p0Raw / 10.0;
     return massConcentrationPm10p0;
+}
+
+float SensirionI2cSen66::signalNumberConcentrationPm0p5(
+    uint16_t numberConcentrationPm0p5Raw) {
+    float numberConcentrationPm0p5 = 0.0;
+    numberConcentrationPm0p5 = numberConcentrationPm0p5Raw / 10.0;
+    return numberConcentrationPm0p5;
+}
+
+float SensirionI2cSen66::signalNumberConcentrationPm1p0(
+    uint16_t numberConcentrationPm1p0Raw) {
+    float numberConcentrationPm1p0 = 0.0;
+    numberConcentrationPm1p0 = numberConcentrationPm1p0Raw / 10.0;
+    return numberConcentrationPm1p0;
+}
+
+float SensirionI2cSen66::signalNumberConcentrationPm2p5(
+    uint16_t numberConcentrationPm2p5Raw) {
+    float numberConcentrationPm2p5 = 0.0;
+    numberConcentrationPm2p5 = numberConcentrationPm2p5Raw / 10.0;
+    return numberConcentrationPm2p5;
+}
+
+float SensirionI2cSen66::signalNumberConcentrationPm4p0(
+    uint16_t numberConcentrationPm4p0Raw) {
+    float numberConcentrationPm4p0 = 0.0;
+    numberConcentrationPm4p0 = numberConcentrationPm4p0Raw / 10.0;
+    return numberConcentrationPm4p0;
+}
+
+float SensirionI2cSen66::signalNumberConcentrationPm10p0(
+    uint16_t numberConcentrationPm10p0Raw) {
+    float numberConcentrationPm10p0 = 0.0;
+    numberConcentrationPm10p0 = numberConcentrationPm10p0Raw / 10.0;
+    return numberConcentrationPm10p0;
 }
 
 float SensirionI2cSen66::signalTemperature(int16_t temperatureRaw) {
@@ -154,32 +182,37 @@ int16_t SensirionI2cSen66::readMeasuredValues(
 }
 
 int16_t SensirionI2cSen66::readNumberConcentrationValues(
-    float& massConcentrationPm0p5, float& massConcentrationPm1p0,
-    float& massConcentrationPm2p5, float& massConcentrationPm4p0,
-    float& massConcentrationPm10p0) {
-    uint16_t massConcentrationPm0p5Raw = 0;
-    uint16_t massConcentrationPm1p0Raw = 0;
-    uint16_t massConcentrationPm2p5Raw = 0;
-    uint16_t massConcentrationPm4p0Raw = 0;
-    uint16_t massConcentrationPm10p0Raw = 0;
+    float& numberConcentrationPm0p5, float& numberConcentrationPm1p0,
+    float& numberConcentrationPm2p5, float& numberConcentrationPm4p0,
+    float& numberConcentrationPm10p0) {
+    uint16_t numberConcentrationPm0p5Raw = 0;
+    uint16_t numberConcentrationPm1p0Raw = 0;
+    uint16_t numberConcentrationPm2p5Raw = 0;
+    uint16_t numberConcentrationPm4p0Raw = 0;
+    uint16_t numberConcentrationPm10p0Raw = 0;
     int16_t localError = 0;
     localError = readNumberConcentrationValuesAsIntegers(
-        massConcentrationPm0p5Raw, massConcentrationPm1p0Raw,
-        massConcentrationPm2p5Raw, massConcentrationPm4p0Raw,
-        massConcentrationPm10p0Raw);
+        numberConcentrationPm0p5Raw, numberConcentrationPm1p0Raw,
+        numberConcentrationPm2p5Raw, numberConcentrationPm4p0Raw,
+        numberConcentrationPm10p0Raw);
     if (localError != NO_ERROR) {
         return localError;
     }
-    massConcentrationPm0p5 = SensirionI2cSen66::signalMassConcentrationPm0p5(
-        massConcentrationPm0p5Raw);
-    massConcentrationPm1p0 = SensirionI2cSen66::signalMassConcentrationPm1p0(
-        massConcentrationPm1p0Raw);
-    massConcentrationPm2p5 = SensirionI2cSen66::signalMassConcentrationPm2p5(
-        massConcentrationPm2p5Raw);
-    massConcentrationPm4p0 = SensirionI2cSen66::signalMassConcentrationPm4p0(
-        massConcentrationPm4p0Raw);
-    massConcentrationPm10p0 = SensirionI2cSen66::signalMassConcentrationPm10p0(
-        massConcentrationPm10p0Raw);
+    numberConcentrationPm0p5 =
+        SensirionI2cSen66::signalNumberConcentrationPm0p5(
+            numberConcentrationPm0p5Raw);
+    numberConcentrationPm1p0 =
+        SensirionI2cSen66::signalNumberConcentrationPm1p0(
+            numberConcentrationPm1p0Raw);
+    numberConcentrationPm2p5 =
+        SensirionI2cSen66::signalNumberConcentrationPm2p5(
+            numberConcentrationPm2p5Raw);
+    numberConcentrationPm4p0 =
+        SensirionI2cSen66::signalNumberConcentrationPm4p0(
+            numberConcentrationPm4p0Raw);
+    numberConcentrationPm10p0 =
+        SensirionI2cSen66::signalNumberConcentrationPm10p0(
+            numberConcentrationPm10p0Raw);
     return localError;
 }
 
