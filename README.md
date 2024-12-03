@@ -35,7 +35,7 @@ manager or `Add .ZIP Library`
 #### Dependencies
 * [Sensirion Core](https://github.com/Sensirion/arduino-core)
 
-## Sensor wiring
+## Connect the sensor
 
 Use the following pin description to connect your SEN66 to the standard I²C bus of your Arduino board:
 
@@ -47,8 +47,8 @@ Use the following pin description to connect your SEN66 to the standard I²C bus
 | 2 | black | GND | Ground |
 | 3 | green | SDA | I2C: Serial data input / output | TTL 5V compatible
 | 4 | yellow | SCL | I2C: Serial clock input | TTL 5V compatible
-| 5 |  | GND | Ground | Do not connect (Pins 2 and 5 are connected internally)
-| 6 |  | VDD | Supply Voltage | Do not connect (Pins 1 and 6 are connected internally)
+| 5 |  | NC | Do not connect | Ground (Pins 2 and 5 are connected internally)
+| 6 |  | NC | Do not connect | Supply voltage (Pins 1 and 6 are connected internally)
 
 
 
@@ -69,8 +69,6 @@ You will find pinout schematics for recommended board models below:
 | GND | 2 | black | GND |
 | SDA | 3 | green | D18/SDA |
 | SCL | 4 | yellow | D19/SCL |
-| GND | 5 |  | GND |
-| VDD | 6 |  | 3.3V |
 
 
 
@@ -90,9 +88,6 @@ You will find pinout schematics for recommended board models below:
 | GND | 2 | black | GND |
 | SDA | 3 | green | A4 |
 | SCL | 4 | yellow | A5 |
-| GND | 5 |  | GND |
-| VDD | 6 |  | 3.3V |
-
 
 
 <img src="images/Arduino-Nano-i2c-pinout-3.3V.png" width="600px">
@@ -111,8 +106,6 @@ You will find pinout schematics for recommended board models below:
 | GND | 2 | black | GND |
 | SDA | 3 | green | D2/SDA |
 | SCL | 4 | yellow | ~D3/SCL |
-| GND | 5 |  | GND |
-| VDD | 6 |  | 3.3V |
 
 
 
@@ -132,9 +125,6 @@ You will find pinout schematics for recommended board models below:
 | GND | 2 | black | GND |
 | SDA | 3 | green | D20/SDA |
 | SCL | 4 | yellow | D21/SCL |
-| GND | 5 |  | GND |
-| VDD | 6 |  | 3.3V |
-
 
 
 <img src="images/Arduino-Mega-2560-Rev3-i2c-pinout-3.3V.png" width="600px">
@@ -153,8 +143,6 @@ You will find pinout schematics for recommended board models below:
 | GND | 2 | black | GND |
 | SDA | 3 | green | GPIO 21 |
 | SCL | 4 | yellow | GPIO 22 |
-| GND | 5 |  | GND |
-| VDD | 6 |  | 3V3 |
 
 
 
@@ -168,7 +156,7 @@ You will find pinout schematics for recommended board models below:
 
 1. Install the libraries and dependencies according to [Installation of the library](#installation-of-the-library)
 
-2. Connect the SEN66 sensor to your Arduino as explained in [Sensor wiring](#sensor-wiring)
+2. Connect the SEN66 sensor to your Arduino as explained in [Connect the sensor](#connect-the-sensor)
 
 3. Open the `exampleUsage` sample project within the Arduino IDE:
 
