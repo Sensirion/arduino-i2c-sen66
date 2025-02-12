@@ -35,7 +35,7 @@ manager or `Add .ZIP Library`
 #### Dependencies
 * [Sensirion Core](https://github.com/Sensirion/arduino-core)
 
-## Connect the sensor
+## Sensor wiring
 
 Use the following pin description to connect your SEN66 to the standard I²C bus of your Arduino board:
 
@@ -90,6 +90,7 @@ You will find pinout schematics for recommended board models below:
 | SCL | 4 | yellow | A5 |
 
 
+
 <img src="images/Arduino-Nano-i2c-pinout-3.3V.png" width="600px">
 </p>
 </details>
@@ -127,6 +128,7 @@ You will find pinout schematics for recommended board models below:
 | SCL | 4 | yellow | D21/SCL |
 
 
+
 <img src="images/Arduino-Mega-2560-Rev3-i2c-pinout-3.3V.png" width="600px">
 </p>
 </details>
@@ -156,7 +158,7 @@ You will find pinout schematics for recommended board models below:
 
 1. Install the libraries and dependencies according to [Installation of the library](#installation-of-the-library)
 
-2. Connect the SEN66 sensor to your Arduino as explained in [Connect the sensor](#connect-the-sensor)
+2. Connect the SEN66 sensor to your Arduino as explained in [Sensor wiring](#sensor-wiring)
 
 3. Open the `exampleUsage` sample project within the Arduino IDE:
 
