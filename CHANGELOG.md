@@ -5,6 +5,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] 
 
+## [1.1.0] - 2025-2-12
+
+### Changed
+
+- Serial number and product name interpreted as string (changed from uint8[32] to int8[32])
 ## [1.0.1] - 2024-12-1
 
 ### Fixed
@@ -26,7 +31,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add interfaces to start, stop and read measurements.
 - Add interfaces to read product name, serial number and version
 
-[Unreleased]: https://github.com/Sensirion/arduino-i2c-sen66/compare/1.0.1...HEAD
+[Unreleased]: https://github.com/Sensirion/arduino-i2c-sen66/compare/1.1.0...HEAD
+[1.1.0]: https://github.com/Sensirion/arduino-i2c-sen66/compare/1.0.1...1.1.0
 [1.0.1]: https://github.com/Sensirion/arduino-i2c-sen66/compare/1.0.0...1.0.1
 [1.0.0]: https://github.com/Sensirion/arduino-i2c-sen66/compare/0.1.0...1.0.0
 [0.1.0]: https://github.com/Sensirion/arduino-i2c-sen66/releases/tag/0.1.0
