@@ -12,7 +12,7 @@ jobs:
     with:
       expect-arduino-examples: true
       # change to "update" once you published the driver on Arduino library registry
-      lint-lib-manager-check: submit
+      lint-lib-manager-check: update
 
   code-generation-check:
     uses: sensirion/.github/.github/workflows/driver.generated.metadata_check.yml@main
