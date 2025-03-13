@@ -37,8 +37,10 @@ getAmbientPressure	KEYWORD2
 setSensorAltitude	KEYWORD2
 getSensorAltitude	KEYWORD2
 activateShtHeater	KEYWORD2
+getShtHeaterMeasurements	KEYWORD2
 getProductName	KEYWORD2
 getSerialNumber	KEYWORD2
+getVersion	KEYWORD2
 readDeviceStatus	KEYWORD2
 readAndClearDeviceStatus	KEYWORD2
 deviceReset	KEYWORD2
