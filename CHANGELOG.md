@@ -5,6 +5,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] 
 
+## [1.2.0] - 2025-3-13
+
+### Added
+
+- get version command to read the firmware version
+- get SHT heater measurement to read humidity and temperature measurement after heater activation. This command is available for firmware version >= 4.0.
+### Changed
+
+- Activate SHT heater duration reduced to 20ms. For firmware version >= 4.0 the get heater measurements command can be used to check if the heater has finished. With firmware versions < 4.0 one must wait at least 1300ms before issuing another command.
 ## [1.1.0] - 2025-2-12
 
 ### Changed
@@ -31,7 +40,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add interfaces to start, stop and read measurements.
 - Add interfaces to read product name, serial number and version
 
-[Unreleased]: https://github.com/Sensirion/arduino-i2c-sen66/compare/1.1.0...HEAD
+[Unreleased]: https://github.com/Sensirion/arduino-i2c-sen66/compare/1.2.0...HEAD
+[1.2.0]: https://github.com/Sensirion/arduino-i2c-sen66/compare/1.1.0...1.2.0
 [1.1.0]: https://github.com/Sensirion/arduino-i2c-sen66/compare/1.0.1...1.1.0
 [1.0.1]: https://github.com/Sensirion/arduino-i2c-sen66/compare/1.0.0...1.0.1
 [1.0.0]: https://github.com/Sensirion/arduino-i2c-sen66/compare/0.1.0...1.0.0
