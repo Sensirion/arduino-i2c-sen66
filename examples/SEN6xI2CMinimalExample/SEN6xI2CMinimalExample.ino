@@ -60,84 +60,83 @@ void setup() {
     Wire.begin();
     sensor.begin(Wire, SEN66_I2C_ADDR_6B);
 
-    error = sensor.deviceReset();
+    error = sensor.stopMeasurement();
     if (error != NO_ERROR) {
-        Serial.print("Error trying to execute deviceReset(): ");
-        errorToString(error, errorMessage, sizeof errorMessage);
-        Serial.println(errorMessage);
-        return;
+        Serial.print("stop measurement not successful");
+        Serial.println();
     }
-    delay(1200);
-    int8_t serialNumber[32] = {0};
 
-    error = sensor.getSerialNumber(serialNumber, 32);
-    if (error != NO_ERROR) {
-        Serial.print("Error trying to execute getSerialNumber(): ");
-        errorToString(error, errorMessage, sizeof errorMessage);
-        Serial.println(errorMessage);
-        return;
-    }
-    Serial.print("serialNumber: ");
-    Serial.print((const char*)serialNumber);
-    Serial.println();
+    delay(50);
     error = sensor.startContinuousMeasurement();
     if (error != NO_ERROR) {
-        Serial.print("Error trying to execute startContinuousMeasurement(): ");
-        errorToString(error, errorMessage, sizeof errorMessage);
-        Serial.println(errorMessage);
-        return;
+        Serial.print("stop measurement not successful");
+        Serial.println();
     }
-    delay(1100);
+
+    delay(1000);
 }
 
 void loop() {
 
-    float massConcentrationPm1p0 = 0.0;
-    float massConcentrationPm2p5 = 0.0;
-    float massConcentrationPm4p0 = 0.0;
-    float massConcentrationPm10p0 = 0.0;
-    float humidity = 0.0;
-    float temperature = 0.0;
-    float vocIndex = 0.0;
-    float noxIndex = 0.0;
-    uint16_t co2 = 0;
+    uint8_t padding = 0;
+    bool dataReady = false;
+    uint16_t massConcentrationPm1p0 = 0;
+    uint16_t massConcentrationPm2p5 = 0;
+    uint16_t massConcentrationPm4p0 = 0;
+    uint16_t massConcentrationPm10p0 = 0;
+    int16_t ambientHumidity = 0;
+    int16_t ambientTemperature = 0;
+    int16_t vOCIndex = 0;
+    int16_t nOxIndex = 0;
+    uint16_t cO2 = 0;
 
-    delay(1000);
-    error = sensor.readMeasuredValues(
-        massConcentrationPm1p0, massConcentrationPm2p5, massConcentrationPm4p0,
-        massConcentrationPm10p0, humidity, temperature, vocIndex, noxIndex,
-        co2);
+    error = sensor.getDataReady(padding, dataReady);
     if (error != NO_ERROR) {
-        Serial.print("Error trying to execute readMeasuredValues(): ");
+        Serial.print("Error trying to execute getDataReady(): ");
         errorToString(error, errorMessage, sizeof errorMessage);
         Serial.println(errorMessage);
         return;
     }
-    Serial.print("massConcentrationPm1p0: ");
-    Serial.print(massConcentrationPm1p0);
-    Serial.print("\t");
-    Serial.print("massConcentrationPm2p5: ");
-    Serial.print(massConcentrationPm2p5);
-    Serial.print("\t");
-    Serial.print("massConcentrationPm4p0: ");
-    Serial.print(massConcentrationPm4p0);
-    Serial.print("\t");
-    Serial.print("massConcentrationPm10p0: ");
-    Serial.print(massConcentrationPm10p0);
-    Serial.print("\t");
-    Serial.print("humidity: ");
-    Serial.print(humidity);
-    Serial.print("\t");
-    Serial.print("temperature: ");
-    Serial.print(temperature);
-    Serial.print("\t");
-    Serial.print("vocIndex: ");
-    Serial.print(vocIndex);
-    Serial.print("\t");
-    Serial.print("noxIndex: ");
-    Serial.print(noxIndex);
-    Serial.print("\t");
-    Serial.print("co2: ");
-    Serial.print(co2);
-    Serial.println();
+    if (dataReady) {
+        //
+        // Readout data from the sensor
+        error = sensor.readMeasuredValuesAsIntegers(
+            massConcentrationPm1p0, massConcentrationPm2p5,
+            massConcentrationPm4p0, massConcentrationPm10p0, ambientHumidity,
+            ambientTemperature, vOCIndex, nOxIndex, cO2);
+        if (error != NO_ERROR) {
+            Serial.print(
+                "Error trying to execute readMeasuredValuesAsIntegers(): ");
+            errorToString(error, errorMessage, sizeof errorMessage);
+            Serial.println(errorMessage);
+            return;
+        }
+        Serial.print("Mass concentration pm1p0 [µg/m³]: ");
+        Serial.print(massConcentrationPm1p0 / 10.0);
+        Serial.println();
+        Serial.print("Mass concentration pm2p5 [µg/m³]: ");
+        Serial.print(massConcentrationPm2p5 / 10.0);
+        Serial.println();
+        Serial.print("Mass concentration pm4p0 [µg/m³]: ");
+        Serial.print(massConcentrationPm4p0 / 10.0);
+        Serial.println();
+        Serial.print("Mass concentration pm10p0 [µg/m³]: ");
+        Serial.print(massConcentrationPm10p0 / 10.0);
+        Serial.println();
+        Serial.print("Ambient humidity [%]: ");
+        Serial.print(ambientHumidity / 100.0);
+        Serial.println();
+        Serial.print("Ambient temperature [°C]: ");
+        Serial.print(ambientTemperature / 200.0);
+        Serial.println();
+        Serial.print("VOC index: ");
+        Serial.print(vOCIndex);
+        Serial.println();
+        Serial.print("NOX index: ");
+        Serial.print(nOxIndex);
+        Serial.println();
+        Serial.print("CO₂ [ppm]: ");
+        Serial.print(cO2);
+        Serial.println();
+    }
 }
