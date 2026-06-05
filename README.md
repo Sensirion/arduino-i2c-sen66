@@ -1,15 +1,16 @@
 # Sensirion I²C SEN66 Arduino Library
 
 This is the Sensirion SEN66 library for Arduino allowing you to
-communicate with a SEN66 sensor over I²C.
+communicate with a SEN66 sensor
+over I²C.
 
-<img src="images/sen6x.png" width="300px">
+<img src="images/product-image-sen6x.png" width="300px">
 
 Click [here](https://sensirion.com/sen6x-air-quality-sensor-platform) to learn more about the Sensirion SEN66 sensor.
 
 
 
-The default I²C address of [SEN66](https://www.sensirion.com/products/catalog/SEN66) is **0x6B**.
+The default I²C address of [SEN66](https://www.sensirion.com/products/catalog/SEN66) is **0x6b**.
 
 
 
@@ -39,7 +40,7 @@ manager or `Add .ZIP Library`
 
 Use the following pin description to connect your SEN66 to the standard I²C bus of your Arduino board:
 
-<img src="images/sen6x-pinout.png" width="300px">
+<img src="images/product-pinout-sen6x.png" width="300px">
 
 | *Pin* | *Cable Color* | *Name* | *Description*  | *Comments* |
 |-------|---------------|:------:|----------------|------------|
@@ -166,9 +167,9 @@ You will find pinout schematics for recommended board models below:
 
 
 
-5. Click the `Upload` button in the Arduino IDE or `Sketch` ➔ `Upload`
+4. Click the `Upload` button in the Arduino IDE or `Sketch` ➔ `Upload`
 
-4. When the upload process has finished, open the `Serial Monitor` or `Serial
+5. When the upload process has finished, open the `Serial Monitor` or `Serial
    Plotter` via the `Tools` menu to observe the measurement values. Note that
    the `Baud Rate` in the used tool has to be set to `115200 baud`.
 

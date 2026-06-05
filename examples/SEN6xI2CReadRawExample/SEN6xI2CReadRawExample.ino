@@ -60,84 +60,64 @@ void setup() {
     Wire.begin();
     sensor.begin(Wire, SEN66_I2C_ADDR_6B);
 
-    error = sensor.deviceReset();
+    error = sensor.stopMeasurement();
     if (error != NO_ERROR) {
-        Serial.print("Error trying to execute deviceReset(): ");
-        errorToString(error, errorMessage, sizeof errorMessage);
-        Serial.println(errorMessage);
-        return;
+        Serial.print("stop measurement not successful");
+        Serial.println();
     }
-    delay(1200);
-    int8_t serialNumber[32] = {0};
 
-    error = sensor.getSerialNumber(serialNumber, 32);
-    if (error != NO_ERROR) {
-        Serial.print("Error trying to execute getSerialNumber(): ");
-        errorToString(error, errorMessage, sizeof errorMessage);
-        Serial.println(errorMessage);
-        return;
-    }
-    Serial.print("serialNumber: ");
-    Serial.print((const char*)serialNumber);
-    Serial.println();
+    delay(50);
     error = sensor.startContinuousMeasurement();
     if (error != NO_ERROR) {
-        Serial.print("Error trying to execute startContinuousMeasurement(): ");
-        errorToString(error, errorMessage, sizeof errorMessage);
-        Serial.println(errorMessage);
-        return;
+        Serial.print("stop measurement not successful");
+        Serial.println();
     }
-    delay(1100);
+
+    delay(1000);
 }
 
 void loop() {
 
-    float massConcentrationPm1p0 = 0.0;
-    float massConcentrationPm2p5 = 0.0;
-    float massConcentrationPm4p0 = 0.0;
-    float massConcentrationPm10p0 = 0.0;
-    float humidity = 0.0;
-    float temperature = 0.0;
-    float vocIndex = 0.0;
-    float noxIndex = 0.0;
-    uint16_t co2 = 0;
+    uint8_t padding = 0;
+    bool dataReady = false;
+    int16_t rawHumidity = 0;
+    int16_t rawTemperature = 0;
+    uint16_t rawVOC = 0;
+    uint16_t rawNOx = 0;
+    uint16_t rawCO2 = 0;
 
-    delay(1000);
-    error = sensor.readMeasuredValues(
-        massConcentrationPm1p0, massConcentrationPm2p5, massConcentrationPm4p0,
-        massConcentrationPm10p0, humidity, temperature, vocIndex, noxIndex,
-        co2);
+    error = sensor.getDataReady(padding, dataReady);
     if (error != NO_ERROR) {
-        Serial.print("Error trying to execute readMeasuredValues(): ");
+        Serial.print("Error trying to execute getDataReady(): ");
         errorToString(error, errorMessage, sizeof errorMessage);
         Serial.println(errorMessage);
         return;
     }
-    Serial.print("massConcentrationPm1p0: ");
-    Serial.print(massConcentrationPm1p0);
-    Serial.print("\t");
-    Serial.print("massConcentrationPm2p5: ");
-    Serial.print(massConcentrationPm2p5);
-    Serial.print("\t");
-    Serial.print("massConcentrationPm4p0: ");
-    Serial.print(massConcentrationPm4p0);
-    Serial.print("\t");
-    Serial.print("massConcentrationPm10p0: ");
-    Serial.print(massConcentrationPm10p0);
-    Serial.print("\t");
-    Serial.print("humidity: ");
-    Serial.print(humidity);
-    Serial.print("\t");
-    Serial.print("temperature: ");
-    Serial.print(temperature);
-    Serial.print("\t");
-    Serial.print("vocIndex: ");
-    Serial.print(vocIndex);
-    Serial.print("\t");
-    Serial.print("noxIndex: ");
-    Serial.print(noxIndex);
-    Serial.print("\t");
-    Serial.print("co2: ");
-    Serial.print(co2);
-    Serial.println();
+    if (dataReady) {
+        //
+        // Readout raw data from the sensor
+        error = sensor.readMeasuredRawValues(rawHumidity, rawTemperature,
+                                             rawVOC, rawNOx, rawCO2);
+        if (error != NO_ERROR) {
+            Serial.print("Error trying to execute readMeasuredRawValues(): ");
+            errorToString(error, errorMessage, sizeof errorMessage);
+            Serial.println(errorMessage);
+            return;
+        }
+        Serial.print("Raw humidity: ");
+        Serial.print(rawHumidity);
+        Serial.println();
+        Serial.print("Raw temperature: ");
+        Serial.print(rawTemperature);
+        Serial.println();
+        Serial.print("Raw VOC index: ");
+        Serial.print(rawVOC);
+        Serial.println();
+        Serial.print("Raw NOX index: ");
+        Serial.print(rawNOx);
+        Serial.println();
+        Serial.print("Raw CO₂: ");
+        Serial.print(rawCO2);
+        Serial.println();
+    }
 }
