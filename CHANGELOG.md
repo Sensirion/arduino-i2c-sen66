@@ -5,6 +5,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] 
 
+## [1.3.1] - 2026-6-8
+
+### Fixed
+
+- fix wrong command ID for read measured values as integer
 ## [1.3.0] - 2026-6-5
 
 ### Added
@@ -45,7 +50,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add interfaces to start, stop and read measurements.
 - Add interfaces to read product name, serial number and version
 
-[Unreleased]: https://github.com/Sensirion/arduino-i2c-sen66/compare/1.3.0...HEAD
+[Unreleased]: https://github.com/Sensirion/arduino-i2c-sen66/compare/1.3.1...HEAD
+[1.3.1]: https://github.com/Sensirion/arduino-i2c-sen66/compare/1.3.0...1.3.1
 [1.3.0]: https://github.com/Sensirion/arduino-i2c-sen66/compare/1.2.0...1.3.0
 [1.2.0]: https://github.com/Sensirion/arduino-i2c-sen66/compare/1.1.0...1.2.0
 [1.1.0]: https://github.com/Sensirion/arduino-i2c-sen66/compare/1.0.1...1.1.0

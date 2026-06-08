@@ -3,7 +3,7 @@
  *
  * Generator:     sensirion-driver-generator 1.7.0
  * Product:       sen66
- * Model-Version: 1.7.1
+ * Model-Version: 1.7.3
  */
 /*
  * Copyright (c) 2026, Sensirion AG
@@ -75,7 +75,7 @@ typedef enum {
     SEN66_START_FAN_CLEANING_CMD_ID = 0x5607,
     SEN66_ACTIVATE_SHT_HEATER_CMD_ID = 0x6765,
     SEN66_GET_SHT_HEATER_MEASUREMENTS_CMD_ID = 0x6790,
-    SEN66_READ_MEASURED_VALUES_AS_INTEGERS_CMD_ID = 0x414,
+    SEN66_READ_MEASURED_VALUES_AS_INTEGERS_CMD_ID = 0x300,
     SEN66_READ_MEASURED_RAW_VALUES_CMD_ID = 0x405,
 } SEN66CmdId;
 
