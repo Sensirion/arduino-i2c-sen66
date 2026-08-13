@@ -53,13 +53,18 @@ Use the following pin description to connect your SEN66 to the standard I²C bus
 
 
 
-
 The recommended voltage is 3.3V.
 
 ### Board specific wiring
-You will find pinout schematics for recommended board models below:
+You will find pinout schematics for some arduino board models below:
 
-
+> [!WARNING]
+> Please check whether the 3.3 V supply of the selected board can provide the required current for the SEN66.
+> The SEN66 may draw peak currents of up to 350 mA during measurement. If the selected board cannot supply this current, 
+> your setup may not operate reliably.
+>
+> Of the boards listed below, only the ESP32 DevKitC V4 can supply the required current from its onboard 3.3 V regulator.
+> For the other boards, an external 3.3 V power supply should be used.
 
 <details><summary>Arduino Uno</summary>
 <p>
