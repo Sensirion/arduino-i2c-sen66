@@ -123,12 +123,12 @@ You will find pinout schematics for some arduino board models below:
 <details><summary>Arduino Mega 2560</summary>
 <p>
 
-| *SEN66* | *SEN66 Pin* | *Cable Color* | *Pin* | *Comments* |
+| *SEN66* | *SEN66 Pin* | *Cable Color* | *Board Pin* | *Comments* |
 | :---: | --- | --- | --- | --- |
 | VDD | 1 | red | ~~3.3V~~ | External power supply recommended |
 | GND | 2 | black | GND | |
-| SDA | 3 | green | Arduino pin D20/SDA | |
-| SCL | 4 | yellow | Arduino pin D21/SCL | |
+| SDA | 3 | green |  D20/SDA | |
+| SCL | 4 | yellow | D21/SCL | |
 
 
 
@@ -144,7 +144,7 @@ You will find pinout schematics for some arduino board models below:
 
 | *SEN66* | *SEN66 Pin* | *Cable Color* | *Board Pin* | *Comments* |
 | :---: | --- | --- | --- | --- |
-| VDD | 1 | red | ~~3.3V~~ | External power supply recommended |
+| VDD | 1 | red | ~~3V3~~ | External power supply recommended |
 | GND | 2 | black | GND | |
 | SDA | 3 | green | GPIO 21 | |
 | SCL | 4 | yellow | GPIO 22 | |
