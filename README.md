@@ -59,22 +59,19 @@ The recommended voltage is 3.3V.
 You will find pinout schematics for some arduino board models below:
 
 > [!WARNING]
-> Please check whether the 3.3 V supply of the selected board can provide the required current for the SEN66.
-> The SEN66 may draw peak currents of up to 350 mA during measurement. If the selected board cannot supply this current, 
-> your setup may not operate reliably.
+> Please ensure that the 3.3 V supply of the selected board can provide enough power for the peak current draw of the SEN66 (up to 350 mA) along with the rest of the powered components. If the selected board cannot supply this current, your setup may not operate reliably.
 >
-> Of the boards listed below, only the ESP32 DevKitC V4 can supply the required current from its onboard 3.3 V regulator.
-> For the other boards, an external 3.3 V power supply should be used.
+> Because of the above-mentioned current consumption and the associated risks, we recommend you to go with external power supply for most prototyping use cases.
 
 <details><summary>Arduino Uno</summary>
 <p>
 
-| *SEN66* | *SEN66 Pin* | *Cable Color* | *Board Pin* |
-| :---: | --- | --- | --- |
-| VDD | 1 | red | 3.3V |
-| GND | 2 | black | GND |
-| SDA | 3 | green | D18/SDA |
-| SCL | 4 | yellow | D19/SCL |
+| *SEN66* | *SEN66 Pin* | *Cable Color* | *Board Pin* | *Comments* |
+| :---: | --- | --- | --- | --- |
+| VDD | 1 | red | ~~3.3V~~ | External power supply recommended |
+| GND | 2 | black | GND | |
+| SDA | 3 | green | D18/SDA | |
+| SCL | 4 | yellow | D19/SCL | |
 
 
 
@@ -88,12 +85,12 @@ You will find pinout schematics for some arduino board models below:
 <details><summary>Arduino Nano</summary>
 <p>
 
-| *SEN66* | *SEN66 Pin* | *Cable Color* | *Board Pin* |
-| :---: | --- | --- | --- |
-| VDD | 1 | red | 3.3V |
-| GND | 2 | black | GND |
-| SDA | 3 | green | A4 |
-| SCL | 4 | yellow | A5 |
+| *SEN66* | *SEN66 Pin* | *Cable Color* | *Board Pin* | *Comments* |
+| :---: | --- | --- | --- | --- |
+| VDD | 1 | red | ~~3.3V~~| External power supply recommended |
+| GND | 2 | black | GND | |
+| SDA | 3 | green | A4 | |
+| SCL | 4 | yellow | A5 | |
 
 
 
@@ -107,12 +104,12 @@ You will find pinout schematics for some arduino board models below:
 <details><summary>Arduino Micro</summary>
 <p>
 
-| *SEN66* | *SEN66 Pin* | *Cable Color* | *Board Pin* |
-| :---: | --- | --- | --- |
-| VDD | 1 | red | 3.3V |
-| GND | 2 | black | GND |
-| SDA | 3 | green | D2/SDA |
-| SCL | 4 | yellow | ~D3/SCL |
+| *SEN66* | *SEN66 Pin* | *Cable Color* | *Board Pin* | *Comments* |
+| :---: | --- | --- | --- | --- |
+| VDD | 1 | red | ~~3.3V~~ | External power supply recommended |
+| GND | 2 | black | GND | |
+| SDA | 3 | green | D2/SDA | |
+| SCL | 4 | yellow | ~D3/SCL | |
 
 
 
@@ -126,12 +123,12 @@ You will find pinout schematics for some arduino board models below:
 <details><summary>Arduino Mega 2560</summary>
 <p>
 
-| *SEN66* | *SEN66 Pin* | *Cable Color* | *Board Pin* |
-| :---: | --- | --- | --- |
-| VDD | 1 | red | 3.3V |
-| GND | 2 | black | GND |
-| SDA | 3 | green | D20/SDA |
-| SCL | 4 | yellow | D21/SCL |
+| *SEN66* | *SEN66 Pin* | *Cable Color* | *Board Pin* | *Comments* |
+| :---: | --- | --- | --- | --- |
+| VDD | 1 | red | ~~3.3V~~ | External power supply recommended |
+| GND | 2 | black | GND | |
+| SDA | 3 | green |  D20/SDA | |
+| SCL | 4 | yellow | D21/SCL | |
 
 
 
@@ -145,12 +142,12 @@ You will find pinout schematics for some arduino board models below:
 <details><summary>ESP32 DevKitC</summary>
 <p>
 
-| *SEN66* | *SEN66 Pin* | *Cable Color* | *Board Pin* |
-| :---: | --- | --- | --- |
-| VDD | 1 | red | 3V3 |
-| GND | 2 | black | GND |
-| SDA | 3 | green | GPIO 21 |
-| SCL | 4 | yellow | GPIO 22 |
+| *SEN66* | *SEN66 Pin* | *Cable Color* | *Board Pin* | *Comments* |
+| :---: | --- | --- | --- | --- |
+| VDD | 1 | red | ~~3V3~~ | External power supply recommended |
+| GND | 2 | black | GND | |
+| SDA | 3 | green | GPIO 21 | |
+| SCL | 4 | yellow | GPIO 22 | |
 
 
 
